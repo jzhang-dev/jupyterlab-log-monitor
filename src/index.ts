@@ -17,7 +17,7 @@ import { Widget } from '@lumino/widgets';
   autoStart: true,
   requires: [ICommandPalette],
   activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
-    console.log('JupyterLab extension jupyterlab_apod 1524 is activated!');
+    console.log('JupyterLab extension jupyterlab_apod 1714 is activated!');
   
     // Create a blank content widget inside of a MainAreaWidget
     const content = new Widget();
