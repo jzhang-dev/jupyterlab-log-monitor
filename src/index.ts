@@ -3,44 +3,29 @@ import {
   JupyterFrontEndPlugin
 } from '@jupyterlab/application';
 
-import { ICommandPalette, MainAreaWidget } from '@jupyterlab/apputils';
-
-import { Widget } from '@lumino/widgets';
+import { ISettingRegistry } from '@jupyterlab/settingregistry';
 
 /**
  * Initialization data for the jupyterlab-log-monitor extension.
  */
- const extension: JupyterFrontEndPlugin<void> = {
-  id: 'jupyterlab-apod',
+const plugin: JupyterFrontEndPlugin<void> = {
+  id: 'jupyterlab-log-monitor:plugin',
   autoStart: true,
-  requires: [ICommandPalette],
-  activate: (app: JupyterFrontEnd, palette: ICommandPalette) => {
-    console.log('JupyterLab extension jupyterlab_apod is activated!');
-  
-    // Create a blank content widget inside of a MainAreaWidget
-    const content = new Widget();
-    const widget = new MainAreaWidget({ content });
-    widget.id = 'apod-jupyterlab';
-    widget.title.label = 'Astronomy Picture';
-    widget.title.closable = true;
-  
-    // Add an application command
-    const command: string = 'apod:open';
-    app.commands.addCommand(command, {
-      label: 'Random Astronomy Picture',
-      execute: () => {
-        if (!widget.isAttached) {
-          // Attach the widget to the main work area if it's not there
-          app.shell.add(widget, 'main');
-        }
-        // Activate the widget
-        app.shell.activateById(widget.id);
-      }
-    });
-  
-    // Add the command to the palette.
-    palette.addItem({ command, category: 'Tutorial' });
+  optional: [ISettingRegistry],
+  activate: (app: JupyterFrontEnd, settingRegistry: ISettingRegistry | null) => {
+    console.log('JupyterLab extension jupyterlab-log-monitor is activated!');
+
+    if (settingRegistry) {
+      settingRegistry
+        .load(plugin.id)
+        .then(settings => {
+          console.log('jupyterlab-log-monitor settings loaded:', settings.composite);
+        })
+        .catch(reason => {
+          console.error('Failed to load settings for jupyterlab-log-monitor.', reason);
+        });
+    }
   }
 };
 
-export default extension;
+export default plugin;
