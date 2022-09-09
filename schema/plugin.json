@@ -1,0 +1,8 @@
+{
+  "jupyter.lab.shortcuts": [],
+  "title": "jupyterlab-log-monitor",
+  "description": "jupyterlab-log-monitor settings.",
+  "type": "object",
+  "properties": {},
+  "additionalProperties": false
+}
